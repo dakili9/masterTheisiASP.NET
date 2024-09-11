@@ -16,7 +16,7 @@ public static class TasksMappings
             UserId = taskModel.UserId.ToString(),
             CategoryId = taskModel.CategoryId.ToString(),
             DueDate = taskModel.DueDate,
-            Status = taskModel.Status.GetStringValue()
+            Status = taskModel.Status?.GetStringValue()
         };
     }
 }

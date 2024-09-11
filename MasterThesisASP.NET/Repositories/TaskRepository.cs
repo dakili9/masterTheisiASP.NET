@@ -35,7 +35,7 @@ public class TaskRepository : BaseRepository<Task>, ITaskRepository
 
         if (queryObject.DueBefore.HasValue)
         {
-            tasks = tasks.Where(t => t.DueDate <= DateOnly.FromDateTime(queryObject.DueBefore.Value));
+            tasks = tasks.Where(t => t.DueDate <= queryObject.DueBefore.Value);
         }
 
         tasks = queryObject.IsDescending

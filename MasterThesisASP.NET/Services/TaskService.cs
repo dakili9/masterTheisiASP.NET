@@ -24,20 +24,45 @@ public class TaskService : ITaskService
         this.userRepository = userRepository;
     }
 
-    public Task<Models.Task> CreateAsync(CreateRequestDto taskDto)
+    public async Task<Models.Task> CreateAsync(CreateRequestDto taskDto)
     {
-        throw new NotImplementedException();
+        if(taskDto is CreateTaskRequestDto dto) 
+        {
+            await CheckIfUserAndCategoryExist(dto.UserId, dto.CategoryId);
+
+            var task = new Task
+            {
+                Id = Guid.NewGuid(),
+                Name = dto.Name,
+                Description = dto.Description,
+                Status = dto.Status,
+                DueDate = dto.DueDate,
+                UserId = dto.UserId,
+                CategoryId = dto.CategoryId
+            };
+
+            return await taskRepository.CreateAsync(task);
+        }
+
+        throw new ArgumentException("Invalid DTO type for Task create");
     }
 
 
-    public Task<bool> DeleteAsync(Guid id)
+    public async Task<bool> DeleteAsync(Guid id)
     {
-        throw new NotImplementedException();
+        Task? task = await taskRepository.GetByIdAsync(id);
+
+        if(task is null)
+        {
+            //todo throw exception
+        }
+
+        return await taskRepository.DeleteAsync(id);
     }
 
-    public Task<IEnumerable<Models.Task>> FilterAsync(TaskQueryObject queryObject)
+    public async Task<IEnumerable<Models.Task>> FilterAsync(TaskQueryObject queryObject)
     {
-        throw new NotImplementedException();
+        return await taskRepository.FilterAsync(queryObject);
     }
 
     public async Task<IEnumerable<Models.Task>> GetAllAsync()
@@ -51,7 +76,7 @@ public class TaskService : ITaskService
 
         if(task is null)
         {
-            // throw exception
+            //todo throw exception
         }
 
         return task;
@@ -63,10 +88,11 @@ public class TaskService : ITaskService
         
         if(task is null)
         {
-            //throw exception
+            //todo throw exception
         }
 
-        if (taskDto is UpdateTaskRequestDto dto){
+        if (taskDto is UpdateTaskRequestDto dto)
+        {
             task.Name = dto.Name;
             task.Description = dto.Description;
             task.Status = dto.Status;
@@ -74,10 +100,22 @@ public class TaskService : ITaskService
             task.UserId = dto.UserId;
             task.CategoryId = dto.CategoryId;
 
-        return await taskRepository.UpdateAsync(task);
+            return await taskRepository.UpdateAsync(task);
         }
 
         throw new ArgumentException("Invalid DTO type for Task update");
     }
 
+    private async System.Threading.Tasks.Task CheckIfUserAndCategoryExist(Guid userId, Guid? categoryId)
+    {
+        if (!await userRepository.ExistsAsync(userId))
+        {
+            throw new Exception("User not found");
+        }
+
+        if (categoryId.HasValue && !await categoryRepository.ExistsAsync(categoryId.Value))
+        {
+            throw new Exception("Category not found");
+        }
+    }
 }
