@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="../build/MasterThesisASP.NET.props" />
+</Project>
