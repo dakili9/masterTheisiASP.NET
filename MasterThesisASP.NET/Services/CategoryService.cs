@@ -1,6 +1,7 @@
 using System;
 using MasterThesisASP.NET.Dtos.Abstract;
 using MasterThesisASP.NET.Dtos.Categories;
+using MasterThesisASP.NET.Exceptions;
 using MasterThesisASP.NET.Models;
 using MasterThesisASP.NET.Repositories.Interfaces;
 using MasterThesisASP.NET.Services.Interfaces;
@@ -37,7 +38,7 @@ public class CategoryService : ICategoryService
 
         if(category is null)
         {
-            //todo throw exception
+            throw new NotFoundException($"The category with id = {id} does not exist.");
         }
 
          return await categoryRepository.DeleteAsync(id);
@@ -54,7 +55,7 @@ public class CategoryService : ICategoryService
 
         if(category is null)
         {
-            //throw exception
+            throw new NotFoundException($"The category with id = {id} does not exist.");
         }
 
         return category;
@@ -71,7 +72,7 @@ public class CategoryService : ICategoryService
 
         if(category is null)
         {
-            //todo throw exception
+            throw new NotFoundException($"The category with id = {id} does not exist.");
         }
 
         if(categoryDto is UpdateCategoryRequestDto dto)

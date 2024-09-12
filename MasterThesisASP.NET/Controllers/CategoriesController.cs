@@ -20,6 +20,7 @@ namespace MasterThesisASP.NET.Controllers
         public async Task<IActionResult> GetAll()
         {
             var categories = await categoryService.GetAllAsync();
+
             return Ok(categories);
         }
 
@@ -27,10 +28,7 @@ namespace MasterThesisASP.NET.Controllers
         public async Task<IActionResult> Get(Guid id)
         {
             var category = await categoryService.GetByIdAsync(id);
-            if (category == null)
-            {
-                return NotFound($"The category with id {id} does not exist");
-            }
+            
             return Ok(category);
         }
 
@@ -38,6 +36,7 @@ namespace MasterThesisASP.NET.Controllers
         public async Task<IActionResult> Create([FromBody] CreateCategoryRequestDto dto)
         {
             var category = await categoryService.CreateAsync(dto);
+
             return CreatedAtAction(nameof(Get), new { id = category.Id }, category);
         }
 
@@ -52,11 +51,8 @@ namespace MasterThesisASP.NET.Controllers
         public async Task<IActionResult> Delete(Guid id)
         {
             var deleted = await categoryService.DeleteAsync(id);
-            if (!deleted)
-            {
-                return NotFound($"The category with id {id} does not exist");
-            }
-            return Ok(new { success = true });
+            
+            return Ok(new { success = deleted });
         }
 
         [HttpGet("with-task-count")]

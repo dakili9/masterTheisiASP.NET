@@ -1,5 +1,3 @@
-using FluentValidation;
-using FluentValidation.AspNetCore;
 using MasterThesisASP.NET;
 using MasterThesisASP.NET.Data;
 using MasterThesisASP.NET.Models;
@@ -38,7 +36,11 @@ builder.Services.AddIdentityCore<User>()
 builder.Services.AddControllers();
 
 /*todo uncomment*/
+//for adding fluent validation
 //builder.Services.AddValidatorsFromAssemblyContaining<UpdateTaskRequestDtoValidator>();
+
+/*for exception handlers*/
+builder.Services.AddExceptionHandlers();
 
 var app = builder.Build();
 
@@ -69,5 +71,8 @@ app.MapPost("/logout", async (SignInManager<User> signInManager) =>
 });
 
 app.MapControllers();
+
+/*for exception handlers*/
+app.UseExceptionHandler();
 
 app.Run();

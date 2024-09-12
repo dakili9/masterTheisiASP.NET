@@ -32,11 +32,6 @@ namespace MasterThesisASP.NET.Controllers
         {
             var task = await taskService.GetByIdAsync(id);
 
-            if (task is null)
-            {
-                return NotFound($"Task with {id} id is not found");
-            }
-
             return Ok(task);
         }
 
@@ -55,11 +50,6 @@ namespace MasterThesisASP.NET.Controllers
         {
             var updatedTask = await taskService.UpdateAsync(id, taskDto);
 
-            if(updatedTask is null)
-            {
-                return NotFound($"Task with {id} id is not found");
-            }
-
             return Ok(updatedTask);
         }
 
@@ -69,12 +59,7 @@ namespace MasterThesisASP.NET.Controllers
         {
             var deleted = await taskService.DeleteAsync(id);
 
-            if (!deleted)
-            {
-                return NotFound($"Task with {id} id is not found");
-            }
-
-            return Ok(new { success = true });
+            return Ok(new { success = deleted });
         }
 
         

@@ -1,5 +1,6 @@
 using MasterThesisASP.NET.Dtos.Abstract;
 using MasterThesisASP.NET.Dtos.Tasks;
+using MasterThesisASP.NET.Exceptions;
 using MasterThesisASP.NET.Helpers.QueryObjects;
 using MasterThesisASP.NET.Repositories.Interfaces;
 using MasterThesisASP.NET.Services.Interfaces;
@@ -54,7 +55,7 @@ public class TaskService : ITaskService
 
         if(task is null)
         {
-            //todo throw exception
+            throw new NotFoundException($"The task with id = {id} does not exist.");
         }
 
         return await taskRepository.DeleteAsync(id);
@@ -76,7 +77,7 @@ public class TaskService : ITaskService
 
         if(task is null)
         {
-            //todo throw exception
+            throw new NotFoundException($"The task with id = {id} does not exist.");
         }
 
         return task;
@@ -88,7 +89,7 @@ public class TaskService : ITaskService
         
         if(task is null)
         {
-            //todo throw exception
+            throw new NotFoundException($"The task with id = {id} does not exist.");
         }
 
         if (taskDto is UpdateTaskRequestDto dto)
@@ -110,12 +111,12 @@ public class TaskService : ITaskService
     {
         if (!await userRepository.ExistsAsync(userId))
         {
-            throw new Exception("User not found");
+            throw new NotFoundException($"The user with the id = {userId} not found");
         }
 
         if (categoryId.HasValue && !await categoryRepository.ExistsAsync(categoryId.Value))
         {
-            throw new Exception("Category not found");
+            throw new NotFoundException($"The category with the id = {categoryId.Value} not found");
         }
     }
 }
