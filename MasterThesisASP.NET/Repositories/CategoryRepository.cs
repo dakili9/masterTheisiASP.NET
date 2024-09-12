@@ -19,7 +19,7 @@ public class CategoryRepository : BaseRepository<Category>, ICategoryRepository
         {
             Id = c.Id,
             Name = c.Name,
-            TaskCount = c.Tasks.Count()  // Get the task count
+            TaskCount = c.Tasks.Count()
         })
         .ToListAsync();
     }

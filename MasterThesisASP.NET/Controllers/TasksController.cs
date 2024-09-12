@@ -27,7 +27,7 @@ namespace MasterThesisASP.NET.Controllers
         }
 
         
-        [HttpGet("{id}")]
+        [HttpGet("{id:guid}")]
         public async Task<IActionResult> Get(Guid id)
         {
             var task = await taskService.GetByIdAsync(id);
@@ -50,7 +50,7 @@ namespace MasterThesisASP.NET.Controllers
         }
 
         
-        [HttpPut("{id}")]
+        [HttpPut("{id:guid}")]
         public async Task<IActionResult> Update(Guid id, [FromBody] UpdateTaskRequestDto taskDto)
         {
             var updatedTask = await taskService.UpdateAsync(id, taskDto);
@@ -64,7 +64,7 @@ namespace MasterThesisASP.NET.Controllers
         }
 
         
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:guid}")]
         public async Task<IActionResult> Delete(Guid id)
         {
             var deleted = await taskService.DeleteAsync(id);
