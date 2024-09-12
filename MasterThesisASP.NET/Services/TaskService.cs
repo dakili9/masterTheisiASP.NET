@@ -70,7 +70,7 @@ public class TaskService : ITaskService
         return await taskRepository.GetAllAsync();
     }
 
-    public async Task<Models.Task> GetByIdAsync(Guid id)
+    public async Task<Models.Task?> GetByIdAsync(Guid id)
     {
         Task? task = await taskRepository.GetByIdAsync(id);
 

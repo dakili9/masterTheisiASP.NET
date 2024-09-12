@@ -2,34 +2,85 @@ using System;
 using MasterThesisASP.NET.Dtos.Abstract;
 using MasterThesisASP.NET.Dtos.Categories;
 using MasterThesisASP.NET.Models;
+using MasterThesisASP.NET.Repositories.Interfaces;
 using MasterThesisASP.NET.Services.Interfaces;
 
 namespace MasterThesisASP.NET.Services;
 
 public class CategoryService : ICategoryService
 {
-    public Task<Category> CreateAsync(CreateRequestDto entity)
+    private readonly ICategoryRepository categoryRepository;
+
+    public CategoryService(ICategoryRepository categoryRepository)
     {
-        throw new NotImplementedException();
+        this.categoryRepository = categoryRepository;
+    }
+    public async Task<Category> CreateAsync(CreateRequestDto categoryDto)
+    {
+        if(categoryDto is CreateCategoryRequestDto dto)
+        {
+            var category = new Category
+            {
+                Id = Guid.NewGuid(),
+                Name = dto.Name
+            };
+
+            return await categoryRepository.CreateAsync(category);
+        }
+        
+        throw new ArgumentException("Invalid DTO type for Category create");
     }
 
-    public Task<bool> DeleteAsync(Guid id)
+    public async Task<bool> DeleteAsync(Guid id)
     {
-        throw new NotImplementedException();
+        Category? category = await categoryRepository.GetByIdAsync(id);
+
+        if(category is null)
+        {
+            //todo throw exception
+        }
+
+         return await categoryRepository.DeleteAsync(id);
     }
 
-    public Task<IEnumerable<Category>> GetAllAsync()
+    public async Task<IEnumerable<Category>> GetAllAsync()
     {
-        throw new NotImplementedException();
+        return await categoryRepository.GetAllAsync();
     }
 
-    public Task<Category> GetByIdAsync(Guid id)
+    public async Task<Category?> GetByIdAsync(Guid id)
     {
-        throw new NotImplementedException();
+        Category? category  = await categoryRepository.GetByIdAsync(id);
+
+        if(category is null)
+        {
+            //throw exception
+        }
+
+        return category;
     }
 
-    public Task<Category> UpdateAsync(Guid id, UpdateRequestDto entity)
+    public async Task<IEnumerable<CategoryWithTaskCountDto>> GetCategoriesWithTaskCountAsync()
     {
-        throw new NotImplementedException();
+        return await categoryRepository.GetCategoriesWithTaskCountAsync();
+    }
+
+    public async Task<Category> UpdateAsync(Guid id, UpdateRequestDto categoryDto)
+    {
+        Category? category = await categoryRepository.GetByIdAsync(id);
+
+        if(category is null)
+        {
+            //todo throw exception
+        }
+
+        if(categoryDto is UpdateCategoryRequestDto dto)
+        {
+            category.Name = dto.Name;
+
+            return await categoryRepository.UpdateAsync(category);
+        }
+        
+        throw new ArgumentException("Invalid DTO type for Category update");
     }
 }
