@@ -1,4 +1,5 @@
 using MasterThesisASP.NET.Dtos.Categories;
+using MasterThesisASP.NET.Mappings;
 using MasterThesisASP.NET.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,24 +13,26 @@ namespace MasterThesisASP.NET.Controllers
         private readonly ICategoryService categoryService;
 
         public CategoriesController(ICategoryService categoryService)
-    {
-        this.categoryService = categoryService;
-    }
+        {
+            this.categoryService = categoryService;
+        }
 
     [HttpGet]
         public async Task<IActionResult> GetAll()
         {
             var categories = await categoryService.GetAllAsync();
 
-            return Ok(categories);
+            var categoryDtos = categories.Select(s => s.ToCategoryDto()).ToList();
+
+            return Ok(categoryDtos);
         }
 
         [HttpGet("{id:guid}")]
-        public async Task<IActionResult> Get(Guid id)
+        public async Task<IActionResult> Get([FromRoute] Guid id)
         {
             var category = await categoryService.GetByIdAsync(id);
             
-            return Ok(category);
+            return Ok(category?.ToCategoryDto());
         }
 
         [HttpPost]
@@ -37,18 +40,19 @@ namespace MasterThesisASP.NET.Controllers
         {
             var category = await categoryService.CreateAsync(dto);
 
-            return CreatedAtAction(nameof(Get), new { id = category.Id }, category);
+            return CreatedAtAction(nameof(Get), new { id = category.Id }, category.ToCategoryDto());
         }
 
         [HttpPut("{id:guid}")]
-        public async Task<IActionResult> Update(Guid id, [FromBody] UpdateCategoryRequestDto dto)
+        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateCategoryRequestDto dto)
         {
             var updatedCategory = await categoryService.UpdateAsync(id, dto);
-            return Ok(updatedCategory);
+
+            return Ok(updatedCategory.ToCategoryDto());
         }
 
         [HttpDelete("{id:guid}")]
-        public async Task<IActionResult> Delete(Guid id)
+        public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
             var deleted = await categoryService.DeleteAsync(id);
             
@@ -59,6 +63,7 @@ namespace MasterThesisASP.NET.Controllers
         public async Task<IActionResult> GetCategoriesWithTaskCount()
         {
             var categories = await categoryService.GetCategoriesWithTaskCountAsync();
+
             return Ok(categories);
         }
     }

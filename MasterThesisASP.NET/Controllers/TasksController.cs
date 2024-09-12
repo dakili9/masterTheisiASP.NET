@@ -1,8 +1,7 @@
-using System.Security.Claims;
 using MasterThesisASP.NET.Dtos.Tasks;
 using MasterThesisASP.NET.Helpers.QueryObjects;
+using MasterThesisASP.NET.Mappings;
 using MasterThesisASP.NET.Services.Interfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MasterThesisASP.NET.Controllers
@@ -29,11 +28,11 @@ namespace MasterThesisASP.NET.Controllers
 
         
         [HttpGet("{id:guid}")]
-        public async Task<IActionResult> Get(Guid id)
+        public async Task<IActionResult> Get([FromRoute] Guid id)
         {
             var task = await taskService.GetByIdAsync(id);
 
-            return Ok(value: task);
+            return Ok(task?.ToTaskDto());
         }
 
         
@@ -42,21 +41,21 @@ namespace MasterThesisASP.NET.Controllers
         {
             var createdTask = await taskService.CreateAsync(taskDto);
 
-            return CreatedAtAction(nameof(Get), new { id = createdTask.Id }, createdTask);
+            return CreatedAtAction(nameof(Get), new { id = createdTask.Id }, createdTask.ToTaskDto());
         }
 
         
         [HttpPut("{id:guid}")]
-        public async Task<IActionResult> Update(Guid id, [FromBody] UpdateTaskRequestDto taskDto)
+        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateTaskRequestDto taskDto)
         {
             var updatedTask = await taskService.UpdateAsync(id, taskDto);
 
-            return Ok(updatedTask);
+            return Ok(updatedTask.ToTaskDto());
         }
 
         
         [HttpDelete("{id:guid}")]
-        public async Task<IActionResult> Delete(Guid id)
+        public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
             var deleted = await taskService.DeleteAsync(id);
 
@@ -69,7 +68,9 @@ namespace MasterThesisASP.NET.Controllers
         {
             var tasks = await taskService.FilterAsync(queryObject);
 
-            return Ok(tasks);
+            var taskDtos = tasks.Select(t => t.ToTaskDto()).ToList();
+
+            return Ok(taskDtos);
         }
     }
 }

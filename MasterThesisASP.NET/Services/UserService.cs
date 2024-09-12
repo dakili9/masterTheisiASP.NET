@@ -11,21 +11,50 @@ namespace MasterThesisASP.NET.Services;
 
 public class UserService : IUserService
 {
+    private readonly UserManager<User> userManager;
     private readonly IUserRepository userRepository;
 
-    public UserService(IUserRepository userRepository)
+    public UserService(
+        IUserRepository userRepository,
+        UserManager<User> userManager)
     {
         this.userRepository = userRepository;
+        this.userManager = userManager;
     }
 
-    public Task<User> CreateAsync(CreateRequestDto entity)
+    public async Task<User> CreateAsync(CreateRequestDto createRequest)
     {
-        throw new NotImplementedException();
+        if(createRequest is CreateUserRequestDto dto)
+        {
+            var user = new User
+            {
+                UserName = dto.Email,
+                Email = dto.Email,
+            };
+        
+
+            var result = await userManager.CreateAsync(user, dto.Password);
+            if (!result.Succeeded)
+            {
+                throw new BadRequestException(string.Join(", "
+                , result.Errors.Select(e => e.Description)));
+            }
+
+        }
+
+         throw new ArgumentException("Invalid DTO type for User update");
     }
 
-    public Task<bool> DeleteAsync(Guid id)
+    public async Task<bool> DeleteAsync(Guid id)
     {
-        throw new NotImplementedException();
+        var user = await userRepository.GetByIdAsync(id);
+
+        if (user == null)
+        {
+            throw new NotFoundException($"User with id {id} not found.");
+        }
+
+        return await userRepository.DeleteAsync(id);
     }
 
     public async Task<IEnumerable<User>> GetAllAsync()
@@ -45,13 +74,34 @@ public class UserService : IUserService
         return user;
     }
 
-    public Task<User> GetUserWithTasksAndCategoriesAsync(Guid userId)
+    public async Task<User> GetUserWithTasksAndCategoriesAsync(Guid id)
     {
-        throw new NotImplementedException();
+        var user = await userRepository.FindWithTasksAndCategoriesAsync(id);
+
+        if (user == null)
+        {
+            throw new NotFoundException($"User with id {id} not found.");
+        }
+
+        return user;
     }
 
-    public Task<User> UpdateAsync(Guid id, UpdateRequestDto entity)
+    public async Task<User> UpdateAsync(Guid id, UpdateRequestDto updateRequest)
     {
-        throw new NotImplementedException();
+        var user = await userRepository.GetByIdAsync(id);
+
+        if (user == null)
+        {
+            throw new NotFoundException($"User with id {id} not found.");
+        }
+
+        if(updateRequest is UpdateUserRequestDto dto)
+        {
+            user.UserName = dto.UserName;
+
+            return await this.userRepository.UpdateAsync(user);
+        }
+
+        throw new ArgumentException("Invalid DTO type for User update");
     }
 }

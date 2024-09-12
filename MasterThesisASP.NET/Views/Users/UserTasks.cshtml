@@ -1,0 +1,33 @@
+﻿@model UserTasksViewModel
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Tasks</title>
+</head>
+<body>
+<h1>Hi, @Model.UserName!</h1>
+<h2>Your Tasks</h2>
+
+@if (!Model.Tasks.Any())
+{
+    <p>You have no tasks.</p>
+}
+else
+{
+    <ul>
+    @foreach (var task in Model.Tasks)
+    {
+        <li>
+            <strong>@task.Name</strong> - @task.Description<br />
+            Status: @task.Status<br />
+            Due Date: @task.DueDate.ToString("yyyy-MM-dd")<br />
+            Category: @task.CategoryName<br />
+        </li>
+    }
+    </ul>
+}
+</body>
+</html>

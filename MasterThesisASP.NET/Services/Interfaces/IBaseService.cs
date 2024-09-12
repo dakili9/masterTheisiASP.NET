@@ -7,7 +7,7 @@ public interface IBaseService<T> where T : class
 {
     public Task<IEnumerable<T>> GetAllAsync();
     public Task<T?> GetByIdAsync(Guid id);
-    public Task<T> CreateAsync(CreateRequestDto entity);
-    public Task<T> UpdateAsync(Guid id, UpdateRequestDto entity);
+    public Task<T> CreateAsync(CreateRequestDto createRequest);
+    public Task<T> UpdateAsync(Guid id, UpdateRequestDto updateRequest);
     public Task<bool> DeleteAsync(Guid id);
 }
