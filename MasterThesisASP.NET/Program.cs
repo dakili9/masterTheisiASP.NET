@@ -1,6 +1,9 @@
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using MasterThesisASP.NET;
 using MasterThesisASP.NET.Data;
 using MasterThesisASP.NET.Models;
+using MasterThesisASP.NET.Validators.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -33,6 +36,9 @@ builder.Services.AddIdentityCore<User>()
 .AddApiEndpoints();
 
 builder.Services.AddControllers();
+
+/*todo uncomment*/
+//builder.Services.AddValidatorsFromAssemblyContaining<UpdateTaskRequestDtoValidator>();
 
 var app = builder.Build();
 

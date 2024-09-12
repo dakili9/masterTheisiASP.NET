@@ -415,3 +415,6 @@
 /home/darinka-djurovic/Documents/masterThesisASP.NET/MasterThesisASP.NET/bin/Debug/net8.0/Microsoft.Extensions.Identity.Core.dll
 /home/darinka-djurovic/Documents/masterThesisASP.NET/MasterThesisASP.NET/bin/Debug/net8.0/Microsoft.Extensions.Identity.Stores.dll
 /home/darinka-djurovic/Documents/masterThesisASP.NET/MasterThesisASP.NET/bin/Debug/net8.0/Microsoft.Extensions.Options.dll
+/home/darinka-djurovic/Documents/masterThesisASP.NET/MasterThesisASP.NET/bin/Debug/net8.0/FluentValidation.dll
+/home/darinka-djurovic/Documents/masterThesisASP.NET/MasterThesisASP.NET/bin/Debug/net8.0/FluentValidation.AspNetCore.dll
+/home/darinka-djurovic/Documents/masterThesisASP.NET/MasterThesisASP.NET/bin/Debug/net8.0/FluentValidation.DependencyInjectionExtensions.dll
