@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using MasterThesisASP.NET.Dtos.Tasks;
 using MasterThesisASP.NET.Helpers.QueryObjects;
 using MasterThesisASP.NET.Services.Interfaces;
@@ -32,7 +33,7 @@ namespace MasterThesisASP.NET.Controllers
         {
             var task = await taskService.GetByIdAsync(id);
 
-            return Ok(task);
+            return Ok(value: task);
         }
 
         

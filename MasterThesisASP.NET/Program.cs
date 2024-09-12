@@ -1,9 +1,13 @@
 using MasterThesisASP.NET;
+using MasterThesisASP.NET.AuthorizationHandlers;
 using MasterThesisASP.NET.Data;
+using MasterThesisASP.NET.IdentityEnhancemets;
 using MasterThesisASP.NET.Models;
 using MasterThesisASP.NET.Validators.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,7 +35,13 @@ builder.Services.AddAuthorization();
 
 builder.Services.AddIdentityCore<User>()
 .AddEntityFrameworkStores<ApplicationDbContext>()
+.AddClaimsPrincipalFactory<AppClaimsFactory>()
 .AddApiEndpoints();
+
+builder.Services.AddTransient<IAuthorizationHandler, TaskAuthorizationHandler>();
+builder.Services.AddTransient<IAuthorizationHandler, UserAuthorizationHandler>();
+builder.Services.AddTransient<IAuthorizationHandler, CategoryAuthorizationHandler>();
+
 
 builder.Services.AddControllers();
 
@@ -57,22 +67,25 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
+
+app.MapIdentityApi<User>();   
+
+app.MapControllers();
+
+/*for exception handlers*/
+app.UseExceptionHandler();
+
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
-
-app.MapIdentityApi<User>();    
+    pattern: "{controller=Home}/{action=Index}/{id?}"); 
 
 app.MapPost("/logout", async (SignInManager<User> signInManager) =>
 {
 	await signInManager.SignOutAsync().ConfigureAwait(false);
 });
 
-app.MapControllers();
-
-/*for exception handlers*/
-app.UseExceptionHandler();
 
 app.Run();
