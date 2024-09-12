@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MasterThesisASP.NET")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6c0ddf4c8aac83708f32e4c6f8ae1b171e3e9870")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d271aecc69958a6b54f0f6796ae63eb2a9d78cb7")]
 [assembly: System.Reflection.AssemblyProductAttribute("MasterThesisASP.NET")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MasterThesisASP.NET")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
