@@ -13,4 +13,7 @@ public static class UserOperations
 
     public static OperationAuthorizationRequirement DeleteUser = 
         new OperationAuthorizationRequirement { Name = nameof(DeleteUser) };
+
+    public static OperationAuthorizationRequirement UpdateSensitiveInformation = 
+        new OperationAuthorizationRequirement { Name = nameof(UpdateSensitiveInformation) };
 }

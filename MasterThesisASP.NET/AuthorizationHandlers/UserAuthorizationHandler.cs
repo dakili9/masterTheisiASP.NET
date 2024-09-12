@@ -39,6 +39,13 @@ public class UserAuthorizationHandler : AuthorizationHandler<OperationAuthorizat
                 context.Succeed(requirement);
             }
         }
+        else if (requirement.Name == nameof(UserOperations.UpdateSensitiveInformation))
+        {
+            if (isAdmin)
+            {
+                context.Succeed(requirement);
+            }
+        }
 
         return Task.CompletedTask;
     }
