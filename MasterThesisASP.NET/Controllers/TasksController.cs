@@ -1,7 +1,9 @@
 using MasterThesisASP.NET.Dtos.Tasks;
 using MasterThesisASP.NET.Helpers.QueryObjects;
 using MasterThesisASP.NET.Mappings;
+using MasterThesisASP.NET.Operations;
 using MasterThesisASP.NET.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MasterThesisASP.NET.Controllers
@@ -11,10 +13,14 @@ namespace MasterThesisASP.NET.Controllers
     public class TasksController : ControllerBase
     {
         private readonly ITaskService taskService;
+        private readonly IAuthorizationService authorizationService;
 
-        public TasksController(ITaskService taskService)
+        public TasksController(
+            ITaskService taskService,
+            IAuthorizationService authorizationService)
         {
             this.taskService = taskService;
+            this.authorizationService = authorizationService;
         }
 
         
@@ -35,20 +41,29 @@ namespace MasterThesisASP.NET.Controllers
             return Ok(task?.ToTaskDto());
         }
 
-        
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateTaskRequestDto taskDto)
         {
             var createdTask = await taskService.CreateAsync(taskDto);
 
+            
+
             return CreatedAtAction(nameof(Get), new { id = createdTask.Id }, createdTask.ToTaskDto());
         }
 
-        
+        [Authorize]
         [HttpPut("{id:guid}")]
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateTaskRequestDto taskDto)
         {
             var updatedTask = await taskService.UpdateAsync(id, taskDto);
+
+            var authorizationResult = await authorizationService.
+                AuthorizeAsync(User, updatedTask, TaskOperations.UpdateTask);
+
+            if(!authorizationResult.Succeeded){{
+                return Forbid();
+            }}
 
             return Ok(updatedTask.ToTaskDto());
         }
