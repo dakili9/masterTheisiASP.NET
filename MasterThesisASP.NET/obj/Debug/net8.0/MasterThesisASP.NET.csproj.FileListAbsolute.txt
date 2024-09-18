@@ -418,3 +418,7 @@
 /home/darinka-djurovic/Documents/masterThesisASP.NET/MasterThesisASP.NET/bin/Debug/net8.0/FluentValidation.dll
 /home/darinka-djurovic/Documents/masterThesisASP.NET/MasterThesisASP.NET/bin/Debug/net8.0/FluentValidation.AspNetCore.dll
 /home/darinka-djurovic/Documents/masterThesisASP.NET/MasterThesisASP.NET/bin/Debug/net8.0/FluentValidation.DependencyInjectionExtensions.dll
+/home/darinka-djurovic/Documents/masterThesisASP.NET/MasterThesisASP.NET/bin/Debug/net8.0/Microsoft.OpenApi.dll
+/home/darinka-djurovic/Documents/masterThesisASP.NET/MasterThesisASP.NET/bin/Debug/net8.0/Swashbuckle.AspNetCore.Swagger.dll
+/home/darinka-djurovic/Documents/masterThesisASP.NET/MasterThesisASP.NET/bin/Debug/net8.0/Swashbuckle.AspNetCore.SwaggerGen.dll
+/home/darinka-djurovic/Documents/masterThesisASP.NET/MasterThesisASP.NET/bin/Debug/net8.0/Swashbuckle.AspNetCore.SwaggerUI.dll

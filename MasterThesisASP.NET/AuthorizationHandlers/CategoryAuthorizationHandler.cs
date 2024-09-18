@@ -17,21 +17,21 @@ public class CategoryAuthorizationHandler: AuthorizationHandler<OperationAuthori
         var userId = context.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         var isAdmin = context.User.HasClaim(c => c.Type == "IsAdmin" && c.Value == "True");
 
-        if (requirement.Name == nameof(CategoryOperations.Create))
+        if (requirement.Name == nameof(CategoryOperations.CreateCategory))
         {
             if (isAdmin)
             {
                 context.Succeed(requirement);
             }
         }
-        else if (requirement.Name == nameof(CategoryOperations.Update))
+        else if (requirement.Name == nameof(CategoryOperations.UpdateCategory))
         {
             if (isAdmin)
             {
                 context.Succeed(requirement);
             }
         }
-        else if (requirement.Name == nameof(CategoryOperations.Delete))
+        else if (requirement.Name == nameof(CategoryOperations.DeleteCategory))
         {
             if (isAdmin)
             {

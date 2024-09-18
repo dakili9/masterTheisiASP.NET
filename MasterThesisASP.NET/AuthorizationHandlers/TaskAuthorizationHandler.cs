@@ -42,3 +42,6 @@ public class TaskAuthorizationHandler : AuthorizationHandler<OperationAuthorizat
         return System.Threading.Tasks.Task.CompletedTask;
     }
 }
+
+
+

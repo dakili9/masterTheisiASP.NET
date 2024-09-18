@@ -45,9 +45,11 @@ namespace MasterThesisASP.NET.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateTaskRequestDto taskDto)
         {
-            var createdTask = await taskService.CreateAsync(taskDto);
+            if(!ModelState.IsValid){
+                return BadRequest();
+            }
 
-            
+            var createdTask = await taskService.CreateAsync(taskDto);
 
             return CreatedAtAction(nameof(Get), new { id = createdTask.Id }, createdTask.ToTaskDto());
         }

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 
 namespace MasterThesisASP.NET.Controllers
 {
-    [Route("/users")]
+    [Route("/Users")]
     public class UsersMVCController : Controller
     {
         private readonly IUserService userService;
@@ -30,7 +30,8 @@ namespace MasterThesisASP.NET.Controllers
 
         private UserTasksViewModel ConvertToUserTasksDto(User user)
         {
-            var tasks = user.Tasks.Select(t => new TaskViewModel
+            var tasks = user.Tasks.Select(t =>
+             new TaskViewModel
                 {
                     Name = t.Name,
                     Description = t.Description,

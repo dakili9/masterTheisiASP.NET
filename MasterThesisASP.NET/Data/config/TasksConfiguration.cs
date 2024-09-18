@@ -25,8 +25,8 @@ public class TasksConfiguration : IEntityTypeConfiguration<Task>
             new Task
             {
                 Id = Guid.Parse("6e73803d-b7e4-48bb-9c15-5d4b0be21d8d"),
-                Name = "Buy Groceries",
-                Description = "Buy vegetables, fruits, and milk.",
+                Name = "Implement asp.net application.",
+                Description = "Finish master thesis.",
                 Status = TaskStatus.Pending,
                 DueDate = DateOnly.FromDateTime(DateTime.UtcNow.AddDays(1)),
                 UserId = Guid.Parse("f8d447e3-3183-40ff-9b71-7d9f60d4ad98"),
